@@ -3,7 +3,7 @@ import java.awt.*;
 import javax.swing.*;
 
 /**
- * La classe <code>FileManager<code> permet de gerer la selection des fichier de sauvegarde et la conversions de ceux ci vers un objet de type <code>GridModel<code>
+ * La classe <code>FileManager<code> permet de gerer la selection des fichier de sauvegarde et la conversion de ceux ci vers un objet de type <code>GridModel<code>
  * Les fichiers doivent respecter le format de 9 entiers canoniques java a la suite
  * 
  * @version 0.1
