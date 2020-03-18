@@ -14,16 +14,40 @@ public class FileManager{
     private File selectedFile;
 
     /**
-     * appel un selecteur de fichier <code>JFileChooser<code> et stock le fichier choisie
+     * appel un selecteur d'ouverture de fichier <code>JFileChooser<code> et stock le fichier choisie
+     * si aucun fichiers n'est choisie ou que l"explorateur de fichier est interrompue le ficher "exemple.gri"
+     * sera selectionne par defaut
      * @param jfc selecteur de fichier du type <code>JFileChooser<code>
      */
-    public void askForFile(JFileChooser jfc) {
-
+    public void askForLoadingFile(JFileChooser jfc) {
+        
+        jfc.setFileFilter(new SaveFilter());
+        jfc.setDialogTitle("Ouvrir un fichier");
         if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             this.selectedFile = jfc.getSelectedFile();
         }
+        else  {
+            this.selectedFile = new File("./save/exemple.gri");
+        }
     }
 
+    /**
+     * appel un selecteur d'enregistrement de fichier <code>JFileChooser<code> et stock le fichier choisie
+     * si aucun fichiers n'est choisie ou que l"explorateur de fichier est interrompue le ficher "exemple.gri"
+     * sera selectionne par defaut
+     * @param jfc selecteur de fichier du type <code>JFileChooser<code>
+     */
+    public void askForSavingFile(JFileChooser jfc) {
+        
+        jfc.setFileFilter(new SaveFilter());
+        jfc.setDialogTitle("sauvegarder une grille");
+        if (jfc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            this.selectedFile = jfc.getSelectedFile();
+        }
+        else  {
+            this.selectedFile = new File("./save/exemple.gri");
+        }
+    }
     /**
      * charge le fichier passe en parametre dans un tableau d'entier de taille 9
      * @param f objet de type <code>File<code>
@@ -46,12 +70,12 @@ public class FileManager{
             }
             try {
                 dis.close();
-            } catch (Exception e) {
-                System.out.println("impossible de fermer le fichier");
+            } catch (IOException e) {
+                System.err.println("impossible de fermer le fichier");
             }
             
         } catch (FileNotFoundException e) {
-            System.out.println("impossible d'ouvrir le fichier");
+            System.err.println("impossible d'ouvrir le fichier");
         }
 
         return values;
@@ -72,5 +96,60 @@ public class FileManager{
             }
         }
         return gm;
+    }
+
+    /**
+     * Cette methodes enregistre les donnees passe sous forme d'un tableau de 9 entier dans un fichier dans le dossier de sauvegarde (save)
+     * @param values tableau de 9 entiers a enregistrer dans le fichier
+     * @param fileName nom du fichier ou serons sauvegarder les donnees
+     */
+    private static void saveGrid(int[] values, String fileName) {
+
+        if(!fileName.toLowerCase().endsWith(SaveFilter.extension)) {
+            fileName += SaveFilter.extension;
+        }
+
+        try {
+            DataOutputStream dos = new DataOutputStream(new FileOutputStream(new File("./save/" + fileName)));
+            for (int i = 0; i < 9; i++) {
+                try {
+                    dos.writeInt(values[i]);
+                } catch (IOException e) {
+                    System.err.println("impossible d'écrire dans le fichier");
+                }
+            }
+            try {
+                dos.close();
+            } catch (IOException e) {
+                System.err.println("Impossible de fermer le fichier");
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("impossible de créer le fichier ou de l'écraser (fichier possiblement non régulier)");
+        }
+    }
+
+    /**
+     * Cette methode permet de sauvegarder un objet de type <code>GridModel<code> dans un fichier dans le dossier de sauvegarde (save)
+     * @param gm Objet de type <code>GridModel<code> qui doit être sauvegarde
+     * @param fileName nom du fichier ou serons sauvegarde les donnees de l'objet <code>GridModel<code>
+     */
+    public void saveFileFromGrid(GridModel gm) {
+        int[] valuesInt = new int[9];
+        String buffer = "";
+        boolean startStoring = false;
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (gm.getCaseFirstNum(i, j) != (byte)0 || startStoring == true) {
+                    startStoring = true;
+                    buffer += (gm.getCaseFirstNum(i, j) + "");
+                }
+            }
+            valuesInt[i] = Integer.parseInt(buffer);
+            buffer = "";
+            startStoring = false;
+        }
+
+        FileManager.saveGrid(valuesInt, this.selectedFile.getName());
     }
 }

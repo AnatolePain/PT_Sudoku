@@ -41,7 +41,7 @@ public class ButtonLoadFileObserver implements ActionListener {
          * fait une demande du fichier a charger et le charge dans l objet <code>GridModel<code>
          */
         public void actionPerformed(ActionEvent evenement) {
-            this.m_manager.askForFile(this.m_jfc);
+            this.m_manager.askForLoadingFile(this.m_jfc);
             m_gm = this.m_manager.loadGridFromFile();
         }
     
