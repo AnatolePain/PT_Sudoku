@@ -6,7 +6,6 @@ public class Application {
         FileManager fm = new FileManager();
         GridModel gm = new GridModel();
         fm.askForLoadFile();
-        System.out.println(fm.getSelectFile());
         if (fm.getSelectFile() != null) {
             gm = fm.loadGridFromFile();
         }

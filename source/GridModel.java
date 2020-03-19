@@ -12,8 +12,8 @@ public class GridModel {
      * initialise toutes les cases de l'objet GridModel avec des objets de type CaseNumber
      */
     public GridModel() {
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array.length; j++) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
                 this.array[i][j] = new CaseNumber();
             }
         }

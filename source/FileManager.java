@@ -14,7 +14,7 @@ public class FileManager{
     private File selectedFile;
     private JFileChooser fileChooser;
 
-    private final static String SAVE_DIRECTORTY = "./save";
+    private final static String SAVE_DIRECTORTY = "../save/";
     private static final String FILE_EXTENTION = ".gri";
 
     public FileManager() {
@@ -39,7 +39,7 @@ public class FileManager{
      */
     public void askForSaveFile() {
         this.fileChooser.setDialogTitle("sauvegarder une grille");
-        this.fileChooser.setSelectedFile(new File("*." + FileManager.FILE_EXTENTION));
+        this.fileChooser.setSelectedFile(new File("*" + FileManager.FILE_EXTENTION));
         if (this.fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
             this.selectedFile = this.fileChooser.getSelectedFile();
         }
@@ -49,7 +49,7 @@ public class FileManager{
      * @param f objet de type File
      * @return tableau d'entier
      */
-    private static int[] loadFile(File f) {
+    private int[] loadFile(File f) {
 
         int[] values = new int[9];
         try {
@@ -72,6 +72,9 @@ public class FileManager{
             
         } catch (FileNotFoundException e) {
             System.err.println("impossible d'ouvrir le fichier");
+            JOptionPane jop = new JOptionPane();
+            jop.showMessageDialog(this.fileChooser, "le fichier specifier est impossible a ouvrir ou n'existe pas", "Attention", JOptionPane.WARNING_MESSAGE);
+            this.selectedFile = null;
         }
 
         return values;
@@ -83,7 +86,7 @@ public class FileManager{
      */
     public GridModel loadGridFromFile() {
         GridModel gm = new GridModel();
-        int[] valuesInt = FileManager.loadFile(this.selectedFile);
+        int[] valuesInt = this.loadFile(this.selectedFile);
 
         for (int i = 0; i < 9; i++) {
             String valueStr = valuesInt[i] + "";
@@ -106,7 +109,7 @@ public class FileManager{
         }
 
         try {
-            DataOutputStream dos = new DataOutputStream(new FileOutputStream(new File("./save/" + fileName)));
+            DataOutputStream dos = new DataOutputStream(new FileOutputStream(new File(FileManager.SAVE_DIRECTORTY + fileName)));
             for (int i = 0; i < 9; i++) {
                 try {
                     dos.writeInt(values[i]);
@@ -140,9 +143,13 @@ public class FileManager{
                     buffer += (gm.getCaseFirstNum(i, j) + "");
                 }
             }
-            valuesInt[i] = Integer.parseInt(buffer);
-            buffer = "";
-            startStoring = false;
+            if (startStoring) {
+                valuesInt[i] = Integer.parseInt(buffer);
+                buffer = "";
+                startStoring = false;
+            } else {
+                valuesInt[i] = 0;
+            }
         }
 
         FileManager.saveGrid(valuesInt, this.selectedFile.getName());
