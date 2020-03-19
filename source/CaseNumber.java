@@ -1,3 +1,5 @@
+package source;
+
 /**
  * La classe <code>CaseNumber<code> sert a stocker les valeurs d'un element de la grille du sudoku,
  * elle est composé d un numéro principal et de quatre numéros secondaire

@@ -1,8 +1,10 @@
+package source;
+
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 public class Application {
-    public static void main(String[] args) {
+        public static void main(String[] args) {
         FileManager fm = new FileManager();
         GridModel gm = new GridModel();
         fm.askForLoadFile();
