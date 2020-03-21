@@ -1,13 +1,13 @@
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
-import java.util.*; 
 
 import javax.swing.text.PlainDocument;
 
 public class Window extends JFrame {
 
 	private JTextField[][] tabTextField = new JTextField[9][9];
+    //private Document[][] tabDocument = new Document[9][9];
     private JPanel[] tabJPanel = new JPanel[9];
     private int indic;
 
@@ -52,13 +52,18 @@ public class Window extends JFrame {
 
                 for(int k = 0; k < 3; k++){
 
-                    tabTextField[i][j+k] = new JTextField(4);
+                    //tabDocument[i][j+k] = new Document();
+
+                    tabTextField[i][j+k] = new JTextField();
                     tabTextField[i][j+k].setHorizontalAlignment(JTextField.CENTER);
                     tabTextField[i][j+k].setFont(font);
                     tabTextField[i][j+k].setBorder(border);
 
-                    Observateur02 obs1 = new Observateur02(this,tabTextField[i][j+k],i,j+k);
+                    Observateur obs1 = new Observateur(this,tabTextField[i][j+k],i,j+k);
                     tabTextField[i][j+k].getDocument().addDocumentListener(obs1);
+                    tabTextField[i][j+k].addActionListener(obs1);
+                    tabTextField[i][j+k].addFocusListener(obs1);
+
 
                     PlainDocument doc = (PlainDocument) tabTextField[i][j+k].getDocument();
                     doc.setDocumentFilter(obs1);
@@ -67,16 +72,39 @@ public class Window extends JFrame {
                 }
             }
         }
-
-        //this.add(pan, BorderLayout.CENTER);
     }
 
 
     public void returnJTextField(JTextField j, int x,int y){
+
+        System.out.println();
     	String text = j.getText();
     	System.out.println("JTextField["+y+"]["+x+"] = "+text);
         System.out.println("( "+x+" ; "+y+" )");
+         System.out.println("---------------");
+        String text2 = "haaaaa !";
+        //j.setText(text2);
+        //returnJTextField02(j,j.getText());
+        System.out.println("JTextField = "+j.getText());
+
+    }
+
+    public void returnJTextField02(JTextField j, String s){
+
         System.out.println();
+        System.out.println("JTextField = "+ s);
+        System.out.println("JTextField = "+j.getText());
+        String text2 = "";
+        j.setText(text2);
+        System.out.println("JTextField = "+j.getText());
+    }
+
+    public void screenGridModele(){
+        
+
+
+
+
     }
 
 }
