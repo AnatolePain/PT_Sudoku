@@ -12,14 +12,17 @@ public class Window extends JFrame {
     private int indic;
 
     public Window() {
-        this.setSize(600, 600);
+        //this.setSize(600, 600);
         this.setLocation(100, 100);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         /*------------PLACEMENT--------------------*/
         JPanel pan = new JPanel();
+        pan.setPreferredSize(new Dimension(716, 716));
         GridLayout grille = new GridLayout(3,3);
-	    this.setLayout(grille);
+        pan.setLayout(grille);
+        this.add(pan);
+        this.setResizable(false);
 
 
         /*-----------STYLE-------------------------*/
@@ -35,7 +38,7 @@ public class Window extends JFrame {
             tabJPanel[i] = new JPanel();
             tabJPanel[i].setLayout(grille);
             tabJPanel[i].setBorder(border1);
-            this.add(tabJPanel[i]);
+            pan.add(tabJPanel[i]);
         }
 
 
@@ -72,6 +75,8 @@ public class Window extends JFrame {
                 }
             }
         }
+
+        this.pack();
     }
 
 
