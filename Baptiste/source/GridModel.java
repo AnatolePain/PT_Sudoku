@@ -1,5 +1,3 @@
-package source;
-
 /**
  * La classe <code>GridModel<code> représente la grille du sudoku avec un tableau de 9*9 objets de type CaseNumber
  * 

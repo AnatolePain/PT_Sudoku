@@ -1,5 +1,3 @@
-package source;
-
 import java.awt.event.*;
 /**
  * La classe <code>ButtonLoadObserver<code> est utilisee comme ActionListener pour
