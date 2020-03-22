@@ -2,10 +2,17 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.text.PlainDocument;
-import java.awt.Color.*;
 
+/**
+ * La classe <code>Direction</code> est utilisée pour signifier une orientation possible
+ * parmi les quatre points cardinaux.
+ *  
+ * @version 0.1
+ * @author Anatole Pain
+ */
 public class PanelSudoku extends JPanel {
 
+    
 	private JTextField[][] tabTextField = new JTextField[9][9];
     private JPanel[] tabJPanel = new JPanel[9];
     private GridModel gridModel;

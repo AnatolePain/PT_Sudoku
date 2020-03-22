@@ -23,7 +23,7 @@ public class ObservateurMenu implements ActionListener {
 
         if(bouton.equals("LOAD FILE")){
             System.out.println("load file");
-            win.loadGridModele();
+            win.loadGridModel();
         }else if(bouton.equals("AUTO")){
             System.out.println("bouton Auto");
             win.afficher();
