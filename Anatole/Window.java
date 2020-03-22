@@ -15,6 +15,8 @@ public class Window extends JFrame {
     private FileManager fm;
     private GridModel gm;
 
+    private boolean gmLoadOrNot;
+
     /**
      * Creation de la fenettre: mise en page de type BorderLayout.avec un le PannelSudoku
      * en CENTER et le PanelMenu en NORTH
@@ -32,6 +34,10 @@ public class Window extends JFrame {
         this.add(sudoku, BorderLayout.CENTER);
 
         this.pack();
+
+        fm = new FileManager();
+        gm = new GridModel();
+
     }
 
     /**
@@ -39,22 +45,26 @@ public class Window extends JFrame {
      */
     public void loadGridModel(){
 
-        fm = new FileManager();
-        gm = new GridModel();
-
+        System.out.println("entrer dans le gridModel");
         fm.askForLoadFile();
         if (fm.getSelectFile() != null) {
+            System.out.println("entrer dans le if()");
             gm = fm.loadGridFromFile();
             sudoku.setScreenGridModele(gm);
+        }else{
+            System.out.println("entrer dans le else");
         }
-
     }
 
     //A SUPPRIMER: affiche le GridModele sur le terminal
     public void afficher(){
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                System.out.print(gm.getCaseFirstNum(i, j) + " ,");
+                System.out.print(gm.getCaseFirstNum(i, j) + "(");
+                for (int k = 0; k < 4; k++) {
+                    System.out.print(gm.getCaseSubNum(i, j, k) + ",");
+                }
+                System.out.print("), ");
             }
             System.out.println();
         }

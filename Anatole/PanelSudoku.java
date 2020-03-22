@@ -94,24 +94,28 @@ public class PanelSudoku extends JPanel {
         }
     }
 
-    public void CaseaEnter(JTextField j,int y, int x){
+    public void CaseaEnter(JTextField j,int x, int y){
 
         String text = j.getText();
-        System.out.println("x = "+x+" ; y = "+y);
         
         if(text.length() == 0){
             gridModel.setCaseFirstNum(x, y, (byte)0);
         }else if(text.length() == 1){
             gridModel.setCaseFirstNum(x, y, Byte.parseByte(text,10));
+            if(stringFocus.length() > 1){
+                for(int i = 0 ; i < stringFocus.length(); i++){
+                    gridModel.setCaseSubNum(x, y, i, (byte)0);
+                }
+            }
         }else{
+            gridModel.setCaseFirstNum(x, y, (byte)0);
             int numbDigit =  text.length();
             for(int i = 0; i < numbDigit ; i++){
                 byte b = Byte.parseByte(text.substring(i,i+1),10);
-                gridModel.setCaseSubNum(x, y, numbDigit-1 , b);
+                gridModel.setCaseSubNum(x, y, i, b);
             }
-        }
 
-        System.out.println("value = "+gridModel.getCaseFirstNum(x,y));
+        }
 
         stringFocus = j.getText();
         j.setFocusable(false);
