@@ -14,7 +14,7 @@ public class FileManager{
     private File selectedFile;
     private JFileChooser fileChooser;
 
-    private final static String SAVE_DIRECTORTY = "../save/";
+    private final static String SAVE_DIRECTORTY = "./save/";
     private static final String FILE_EXTENTION = ".gri";
 
     public FileManager() {

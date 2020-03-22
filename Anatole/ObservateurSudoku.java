@@ -14,8 +14,8 @@ public class ObservateurSudoku extends DocumentFilter implements ActionListener,
 	public ObservateurSudoku(PanelSudoku w,JTextField j,int l,int c){
 		win = w;
 		champ = j;
-		x = c;
-      y = l;
+		x = l;
+      y = c;
 	}
 
    public void actionPerformed(ActionEvent evenement){

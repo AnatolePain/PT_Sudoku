@@ -94,7 +94,7 @@ public class PanelSudoku extends JPanel {
         }
     }
 
-    public void CaseaEnter(JTextField j,int x, int y){
+    public void CaseaEnter(JTextField j,int y, int x){
 
         String text = j.getText();
         System.out.println("x = "+x+" ; y = "+y);
