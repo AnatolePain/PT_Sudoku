@@ -21,12 +21,11 @@ public class ObservateurMenu implements ActionListener {
 
         String bouton = evenement.getActionCommand();
 
-        if(bouton.equals("LOAD FILE")){
-            System.out.println("load file");
+        if(bouton.equals("LOAD")){
             win.loadGridModel();
-        }else if(bouton.equals("AUTO")){
-            System.out.println("bouton Auto");
-            win.afficher();
+        }else if(bouton.equals("SAVE")){
+            //win.afficher();
+            win.saveGridModel();
         }else{
             System.out.println("erreur methode actionPerformed , class ObservateurMenu ");
         }

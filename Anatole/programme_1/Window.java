@@ -56,6 +56,15 @@ public class Window extends JFrame {
         }
     }
 
+    public void saveGridModel(){
+        
+        fm.askForSaveFile();
+        if (fm.getSelectFile() != null) {
+            fm.saveFileFromGrid(gm);
+        }
+    }
+
+
     //A SUPPRIMER: affiche le GridModele sur le terminal
     public void afficher(){
         for (int i = 0; i < 9; i++) {
