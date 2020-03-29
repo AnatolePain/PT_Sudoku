@@ -60,4 +60,43 @@ public class GridModel {
     public void setCaseSubNum(int x, int y, int indice, byte value) {
         this.array[x][y].setSubNum(indice, value);
     }
+
+    /**
+     * 
+     * @param v la valeur à attribuer dans la case
+     * @param x la position x (en cases) de la case
+     * @param y la position y (en cases) de la case
+     * @return true si le placement est possible, false sinon
+     */
+    public boolean isPossible(byte v, int x, int y) {
+        int squareZonePositionX = (x/3)*3;
+        int squareZonePositionY = (y/3)*3;
+        int iteration = 0;
+
+        for (int i = squareZonePositionX; i < squareZonePositionX+3; i++) {
+            for (int j = squareZonePositionY; j < squareZonePositionY+3; j++) {
+                if (this.getCaseFirstNum(i, j) == v) {
+                    iteration++;
+                }
+            }
+        }
+        
+        for (int i = 0; i < 9; i++) {
+            if (this.getCaseFirstNum(x, i) == v) {
+                iteration++;
+            }
+        }
+
+        for (int j = 0; j < 9; j++) {
+            if (this.getCaseFirstNum(j, y) == v) {
+                iteration++;
+            }
+        }
+
+        if (iteration != 0) {
+            return false;
+        }
+
+        return true;
+    }
 }

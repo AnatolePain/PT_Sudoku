@@ -47,13 +47,20 @@ public class Window extends JFrame {
         if (fm.getSelectFile() != null) {
             gm = fm.loadGridFromFile();
             sudoku.setScreenGridModele(gm);
-        }else{
         }
+    }
+
+    public void solveGridModel(){
+
+        ModeAuto ma = new ModeAuto(gm, sudoku);
+        ma.resolution((byte)0,(byte)0);
+        this.afficher();
+
     }
 
     //A SUPPRIMER: affiche le GridModele sur le terminal
     public void afficher(){
-        /*for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 System.out.print(gm.getCaseFirstNum(i, j) + "(");
                 for (int k = 0; k < 4; k++) {
@@ -62,14 +69,16 @@ public class Window extends JFrame {
                 System.out.print("), ");
             }
             System.out.println();
-        }*/
+        }
 
-        for (int i = 0; i < 9; i++) {
+        /*for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 System.out.print(gm.getCaseFirstNum(i, j) + " ,");
             }
             System.out.println();
-        }
+        }*/
+        System.out.println();
+        System.out.println();
     }
 
 }

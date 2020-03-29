@@ -4,7 +4,9 @@ import java.util.regex.*;
 import javax.swing.JTextField;
 import javax.swing.text.*;
 
-public class ObservateurSudoku extends DocumentFilter implements ActionListener,  FocusListener {
+import javax.swing.event.*;
+
+public class ObservateurSudoku extends DocumentFilter implements ActionListener, FocusListener, DocumentListener {
 
 	public PanelSudoku win;
 	public JTextField champ;
@@ -16,7 +18,25 @@ public class ObservateurSudoku extends DocumentFilter implements ActionListener,
 		champ = j;
 		x = l;
       y = c;
+   }
+   
+   /*-------------------------------------------------------*/
+
+   public void changedUpdate(DocumentEvent e){}
+
+   @Override
+   public void insertUpdate(DocumentEvent e){
+		System.out.println("insertUpdate");
+		win.setColor(champ);
 	}
+
+   @Override
+	public void removeUpdate(DocumentEvent e){
+		System.out.println("removeUpdate");
+		win.setColor(champ);
+   }
+   
+   /*----------------------------------------------------------*/
 
    public void actionPerformed(ActionEvent evenement){
       win.CaseaEnter(champ , x , y);

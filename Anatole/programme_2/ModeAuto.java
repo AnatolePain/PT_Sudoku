@@ -1,146 +1,74 @@
 public class ModeAuto {
 
+	private GridModel gridModel;
+	private PanelSudoku panSudo;
 
-    //gère l'affichage
-	public static void affichage (int grille[][])
-	{
-	    for (int i = 0; i < 9; i++)
-	    {
-	        for (int j = 0; j < 9; j++)
-	        {
-	        	System.out.print(grille[i][j]+", ");
-	            
-	        }
-	        System.out.println();
-	    }
-	   System.out.println();
-	   System.out.println();
-	}
-
-	//renvoi true si l'entier k n'est pas sur la ligne
-	public static boolean absentSurLigne (int k, int grille[][], int i)
-	{
-	    for (int j=0; j < 9; j++)
-	        if (grille[i][j] == k)
-	            return false;
-	    return true;
-	}
-
-	//renvoi true si l'entier k n'est pas sur la colonne 
-	public static boolean absentSurColonne (int k, int grille[][], int j)
-	{
-	    for (int i=0; i < 9; i++){
-	        if (grille[i][j] == k){
-	            return false;
-	        }
-	    }
-	    return true;
-	}
-
-	//revoie true si l'entier k n'est pas dans le bloc de 9 case 
-	//prend en paramètre les coordonnées du bloc 
-	public static boolean absentSurBloc (int k, int grille[][], int i, int j)
-	{
-	    int _i = i-(i%3), _j = j-(j%3);  // ou encore : _i = 3*(i/3), _j = 3*(j/3);
-	    for (i=_i; i < _i+3; i++)
-	        for (j=_j; j < _j+3; j++)
-	            if (grille[i][j] == k)
-	                return false;
-	    return true;
+	public ModeAuto (GridModel g, PanelSudoku s) {
+		gridModel = g;
+		panSudo = s;
 	}
 
 
-	public static boolean automatique (int grille[][], int position){
+	public boolean resolution (int x, int y){
 
 		//si on arrive a la position 81 on arrête le programme
-	    if (position == 81){
+	    if (x == 9  || y == 9 ) {
 	        return true;
-	    }
+		}
 
-
-	    //exemple position 56 = coordonné (2;6)
-	    //i = 56/9 = 6  ;  j = 56%9 = 2
-	    int i = position/9, j = position%9;
-
-	    //verifie si la case est egale a zero
-	    if (grille[i][j] != 0){
-	        return estValide(grille, position+1);
-	    }
-
+		//verifie si la case est egale a zero
+	    if (gridModel.getCaseFirstNum(x, y) != 0){
+			return resolution(avancementX(x),avancementY(x,y));
+		}
+		
 	    //test si sur toute cases les 9 numéro (de 1 à 9) sur chaque case
-	    for (int k = 1; k <= 9; k++)
+	    for (byte k = 1; k <= 9; k++)
 	    {
 	    	//verifie si k n'est pas a la fois sur sa ligne, sa collonne , on son bloc 
-	        if (absentSurLigne(k,grille,i) && absentSurColonne(k,grille,j) && absentSurBloc(k,grille,i,j))
+	        if (gridModel.isPossible(k, x, y) == true)
 	        {
-	            grille[i][j] = k;
 
-	            //p=81 (i,j)=k ;
+				gridModel.setCaseFirstNum(x, y, k);
+				panSudo.setScreenCase(x, y);
 
-	            System.out.println(" p="+position+" ("+i+","+j+")="+k);
+	            if ( resolution(avancementX(x),avancementY(x,y))){
+					return true;
+				}
 
-	            if ( estValide (grille, position+1) ){
-	                return true;
-	            }
 	        }
-	    }
-	    grille[i][j] = 0;
+		}
 
-	    System.out.println("CHECK: " + position);
+		gridModel.setCaseFirstNum(x, y, (byte)0);
+		panSudo.setScreenCase(x , y);
 
 	    return false;
 	}
 
-	public static void main(String[] args)
-	{
-	    /*int grille[][] =
-	    {
-	        {9,0,0,1,0,0,0,0,5},
-	        {0,0,5,0,9,0,2,0,1},
-	        {8,0,0,0,4,0,0,0,0},
-	        {0,0,0,0,8,0,0,0,0},
-	        {0,0,0,7,0,0,0,0,0},
-	        {0,0,0,0,2,6,0,0,9},
-	        {2,0,0,3,0,0,0,0,6},
-	        {0,0,0,2,0,0,9,0,0},
-	        {0,0,1,9,0,4,5,7,0}
-	    };*/
+	private int avancementX(int x){
 
-	    int grille[][] = {  {0 ,0 ,0 ,0 ,9 ,5 ,0 ,0 ,4 },
-							{5 ,3 ,0 ,4 ,0 ,8 ,7 ,0 ,2 },
-							{0 ,0 ,0 ,7 ,0 ,0 ,6 ,0 ,3 },
-							{9 ,0 ,0 ,0 ,3 ,4 ,0 ,8 ,0 },
-							{0 ,4 ,0 ,0 ,1 ,0 ,0 ,7 ,0 },
-							{0 ,2 ,0 ,5 ,7 ,0 ,0 ,0 ,6 },
-							{4 ,0 ,9 ,0 ,0 ,2 ,0 ,0 ,0 },
-							{6 ,0 ,7 ,9 ,0 ,3 ,0 ,2 ,1 },
-							{2 ,0 ,0 ,6 ,5 ,0 ,0 ,0 ,0 } };
+		System.out.println("TEST 01: x =  " + x);
 
+		if(x == 8){
+			System.out.println("TEST 02 ");
+			return 0;
+		}else{
+			System.out.println("TEST 03 ");
+			x = x+1;
+			System.out.println(" Le x = "+x);
+			return x;
+		}
+			
+	}
 
-	    System.out.println("Grille avant");
-	    affichage(grille);
+	private int avancementY(int x, int y){
 
-	    /*for(int i = 0 ; i < 9 ; i++ ){
+		if( x == 8 ){
+			y = y+1;
+			return y;
+		}else{
+			return y;
+		}
 
-	    	for(int j = 0 ; j < 9 ; j++ ){
-	    		System.out.print(((i*9)+j)+", ");
-	    	}
-	    	System.out.println();
-	    }
-	    System.out.println();
-	    System.out.println();*/
-
-	    if(estValide(grille,0) == true){
-	    	System.out.println("TRUE");
-	    }else{
-	    	System.out.println("FALSE");
-	    }
-
-	    System.out.println();
-	    System.out.println();
-
-	    System.out.println("Grille apres");
-	    affichage(grille);
 	}
 
 }

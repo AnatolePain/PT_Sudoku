@@ -14,7 +14,7 @@ public class FileManager{
     private File selectedFile;
     private JFileChooser fileChooser;
 
-    private final static String SAVE_DIRECTORTY = "./save/";
+    private final static String SAVE_DIRECTORTY = "../save/";
     private static final String FILE_EXTENTION = ".gri";
 
     public FileManager() {
@@ -31,7 +31,7 @@ public class FileManager{
         this.fileChooser.setDialogTitle("Ouvrir un fichier");
         int returnValue = this.fileChooser.showOpenDialog(null);
         if (returnValue != JFileChooser.APPROVE_OPTION) {
-            this.selectedFile = null;
+            this.selectedFile = this.fileChooser.getSelectedFile();
         } else {
             this.selectedFile = this.fileChooser.getSelectedFile();
         }
@@ -173,4 +173,18 @@ public class FileManager{
     public static String getFileExtention() {
         return FileManager.FILE_EXTENTION;
     }
+
+    /*public void afficher(){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                System.out.print(gm.getCaseFirstNum(i, j) + "(");
+                for (int k = 0; k < 4; k++) {
+                    System.out.print(gm.getCaseSubNum(i, j, k) + ",");
+                }
+                System.out.print(gm.getCaseFirstNum(i, j) + "), ");
+            }
+            System.out.println();
+        }
+    }*/
+
 }

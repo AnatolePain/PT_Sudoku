@@ -24,7 +24,7 @@ public class ObservateurMenu implements ActionListener {
         if(bouton.equals("LOAD FILE")){
             win.loadGridModel();
         }else if(bouton.equals("AUTO")){;
-            win.afficher();
+            win.solveGridModel();
         }else{
             System.out.println("erreur methode actionPerformed , class ObservateurMenu ");
         }
