@@ -2,14 +2,18 @@ public class ModeAuto {
 
 	private GridModel gridModel;
 	private PanelSudoku panSudo;
+	private TimerVue temps;
 
-	public ModeAuto (GridModel g, PanelSudoku s) {
+	public ModeAuto (GridModel g, PanelSudoku s, TimerVue t) {
 		gridModel = g;
 		panSudo = s;
+		temps = t;
 	}
 
 
 	public boolean resolution (int x, int y){
+
+		temps.updateTimer();
 
 		//si on arrive a la position 81 on arrête le programme
 	    if (x == 9  || y == 9 ) {
@@ -21,7 +25,7 @@ public class ModeAuto {
 			return resolution(avancementX(x),avancementY(x,y));
 		}
 		
-	    //test si sur toute cases les 9 numéro (de 1 à 9) sur chaque case
+	    //test si sur toutes les cases les 9 numéro (de 1 à 9) sur chaque case
 	    for (byte k = 1; k <= 9; k++)
 	    {
 	    	//verifie si k n'est pas a la fois sur sa ligne, sa collonne , on son bloc 
@@ -46,15 +50,10 @@ public class ModeAuto {
 
 	private int avancementX(int x){
 
-		System.out.println("TEST 01: x =  " + x);
-
 		if(x == 8){
-			System.out.println("TEST 02 ");
 			return 0;
 		}else{
-			System.out.println("TEST 03 ");
-			x = x+1;
-			System.out.println(" Le x = "+x);
+			x++;
 			return x;
 		}
 			
@@ -63,7 +62,7 @@ public class ModeAuto {
 	private int avancementY(int x, int y){
 
 		if( x == 8 ){
-			y = y+1;
+			y++;
 			return y;
 		}else{
 			return y;

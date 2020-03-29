@@ -47,9 +47,6 @@ public class GridModel {
      * @param value valeur a attribuer au numéro principale de la case identifié par les coordonnées
      */
     public void setCaseFirstNum(int x, int y, byte value) {
-        if (isPossible(value, x, y)) {
-            System.out.println("vrai!");
-        }
         this.array[x][y].setFirstNum(value);
     }
 
@@ -71,34 +68,29 @@ public class GridModel {
      * @param y la position y (en cases) de la case
      * @return true si le placement est possible, false sinon
      */
-    private boolean isPossible(byte v, int x, int y) {
+    public boolean isPossible(byte v, int x, int y) {
         int squareZonePositionX = (x/3)*3;
         int squareZonePositionY = (y/3)*3;
         int iteration = 0;
+
         for (int i = squareZonePositionX; i < squareZonePositionX+3; i++) {
             for (int j = squareZonePositionY; j < squareZonePositionY+3; j++) {
-                System.out.print(this.getCaseFirstNum(i, j) + ",");
                 if (this.getCaseFirstNum(i, j) == v) {
                     iteration++;
                 }
             }
-            System.out.println();
         }
         
         for (int i = 0; i < 9; i++) {
             if (this.getCaseFirstNum(x, i) == v) {
                 iteration++;
             }
-            System.out.println();
-            System.out.print(this.getCaseFirstNum(x, i) + ",");
         }
 
         for (int j = 0; j < 9; j++) {
             if (this.getCaseFirstNum(j, y) == v) {
                 iteration++;
             }
-            System.out.println();
-            System.out.print(this.getCaseFirstNum(j, y) + ",");
         }
 
         if (iteration != 0) {

@@ -15,6 +15,8 @@ public class Window extends JFrame {
     private FileManager fm;
     private GridModel gm;
 
+    private TimerVue temps;
+
     /**
      * Creation de la fenettre: mise en page de type BorderLayout.avec un le PannelSudoku
      * en CENTER et le PanelMenu en NORTH
@@ -52,7 +54,7 @@ public class Window extends JFrame {
 
     public void solveGridModel(){
 
-        ModeAuto ma = new ModeAuto(gm, sudoku);
+        ModeAuto ma = new ModeAuto(gm, sudoku, temps);
         ma.resolution((byte)0,(byte)0);
         this.afficher();
 

@@ -132,6 +132,7 @@ public class PanelSudoku extends JPanel {
                     System.out.println("TEST 2 ");
                     changeFocus = false;
                 }
+                
             }else{
                 j.setForeground(bleuClaire);
                 gridModel.setCaseFirstNum(x, y, (byte)0);

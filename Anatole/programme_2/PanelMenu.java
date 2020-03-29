@@ -30,6 +30,9 @@ public class PanelMenu extends JPanel {
         this.add(loadFileButton);
         this.add(autoButton);
 
+        TimerVue chronometre = new TimerVue();
+        this.add(chronometre);
+
     }
 
 }
