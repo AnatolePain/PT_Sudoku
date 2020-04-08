@@ -1,22 +1,33 @@
 import java.awt.event.*;
-
 import javax.swing.JButton;
-
+/**
+ * La classe <code>ObservateurMenu</code> est un observateur de type ActionListener 
+ * qui permet de gérer le click les differents bouton du menu, LOAD FILE et AUTO.
+ * 
+ * @version 0.1
+ * @author Anatole Pain
+ */
 public class ObservateurMenu implements ActionListener {
 
-    private JButton jLoad;
-    private JButton jAuto;
+    /**
+     * Window win permet d'indiquer la fenêtre principale a la class, utile pour les methodes 
+     * loadGridModele() et solveGridModel().
+     */
     private Window win;
 
-
-
-    public ObservateurMenu(Window w, JButton jL, JButton jA){
+    /**
+     * Fait le liens entre la fenêtre principale et la variable.
+     * @param w Fenêtre principale
+     */
+    public ObservateurMenu(Window w){
         win = w;
-        jLoad = jL;
-        jAuto = jA;
     }
 
-
+    /**
+     *Indique quelle action faire:
+     *Si le bouton LOAD FILE est clické alors faire la methode loadGridModel().
+     *Si le bouton AUTO  est clické alors faire la methode solveGridModel().
+     */
     public void actionPerformed(ActionEvent evenement){
 
         String bouton = evenement.getActionCommand();

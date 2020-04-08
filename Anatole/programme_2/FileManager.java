@@ -174,17 +174,4 @@ public class FileManager{
         return FileManager.FILE_EXTENTION;
     }
 
-    /*public void afficher(){
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                System.out.print(gm.getCaseFirstNum(i, j) + "(");
-                for (int k = 0; k < 4; k++) {
-                    System.out.print(gm.getCaseSubNum(i, j, k) + ",");
-                }
-                System.out.print(gm.getCaseFirstNum(i, j) + "), ");
-            }
-            System.out.println();
-        }
-    }*/
-
 }

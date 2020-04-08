@@ -6,28 +6,28 @@ import javax.swing.text.*;
 
 public class ObservateurSudoku extends DocumentFilter implements ActionListener,  FocusListener {
 
-	public PanelSudoku win;
+	public PanelSudoku sudoku;
 	public JTextField champ;
 	public int x;
    public int y;
 
 	public ObservateurSudoku(PanelSudoku w,JTextField j,int l,int c){
-		win = w;
+		sudoku = w;
 		champ = j;
 		x = l;
       y = c;
 	}
 
    public void actionPerformed(ActionEvent evenement){
-      win.CaseaEnter(champ , x , y);
+      sudoku.CaseaEnter(champ , x , y);
    }
 
    public void focusLost(FocusEvent e){
-      win.caseFocusLost(champ);
+      sudoku.caseFocusLost(champ);
    }
 
    public void focusGained(FocusEvent e){
-      win.caseFocusGained(champ);
+      sudoku.caseFocusGained(champ);
    }
 
 

@@ -1,8 +1,8 @@
 import java.awt.*;
 import javax.swing.*;
 /**
- * La class <code>Window</code> JFrame gèrant l'affichage dans son ensemble, notament en invoquant les
- * les class PanelSudoku et PanelMenu
+ * La class <code>Window</code> est une fenêtre JFrame gèrant l'affichage dans son ensemble, notament en invoquant les
+ * les class PanelSudoku et PanelMenu qui sont deux panneaux
  * 
  * @version 0.1
  * @author Anatole Pain
@@ -12,10 +12,10 @@ public class Window extends JFrame {
     private PanelMenu menu;
     private PanelSudoku sudoku;
 
-    private FileManager fm;
-    private GridModel gm;
+    private FileManager fileManager;
+    private GridModel gridModel;
 
-    private TimerVue temps;
+    private TimerModel chronometre;
 
     /**
      * Creation de la fenettre: mise en page de type BorderLayout.avec un le PannelSudoku
@@ -35,8 +35,9 @@ public class Window extends JFrame {
 
         this.pack();
 
-        fm = new FileManager();
-        gm = new GridModel();
+        fileManager = new FileManager();
+        gridModel = new GridModel();
+        chronometre = new TimerModel();
 
     }
 
@@ -45,28 +46,44 @@ public class Window extends JFrame {
      */
     public void loadGridModel(){
 
-        fm.askForLoadFile();
-        if (fm.getSelectFile() != null) {
-            gm = fm.loadGridFromFile();
-            sudoku.setScreenGridModele(gm);
+        fileManager.askForLoadFile();
+        if (fileManager.getSelectFile() != null) {
+            gridModel = fileManager.loadGridFromFile();
+            sudoku.setScreenGridModele(gridModel);
         }
     }
 
+    /**
+     * permet de de resoudre la grille et utilise les class TimerModel et GridComplete
+     * pour gérer le temps et l'afficher 
+     */
     public void solveGridModel(){
 
-        ModeAuto ma = new ModeAuto(gm, sudoku, temps);
-        ma.resolution((byte)0,(byte)0);
+        chronometre.startTime();
+        ModeAuto auto = new ModeAuto(gridModel, sudoku);
+        auto.resolution((byte)0,(byte)0);
+        this.gridComplete();
+        //A SUPPRIMER: affiche le GridModele sur le terminal 
         this.afficher();
 
+    }
+
+    /**
+     * Stop le timer et affiche le temps et le message de victoire a l'aide de 
+     * la class WinnerVue
+     */
+    public void gridComplete(){
+        chronometre.setTime();
+        WinnerVue wv = new WinnerVue(chronometre);
     }
 
     //A SUPPRIMER: affiche le GridModele sur le terminal
     public void afficher(){
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                System.out.print(gm.getCaseFirstNum(i, j) + "(");
+                System.out.print(gridModel.getCaseFirstNum(i, j) + "(");
                 for (int k = 0; k < 4; k++) {
-                    System.out.print(gm.getCaseSubNum(i, j, k) + ",");
+                    System.out.print(gridModel.getCaseSubNum(i, j, k) + ",");
                 }
                 System.out.print("), ");
             }

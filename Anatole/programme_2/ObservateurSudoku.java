@@ -6,53 +6,95 @@ import javax.swing.text.*;
 
 import javax.swing.event.*;
 
+/**
+ * La classe <code>ObservateurSudoku</code> gère tout les listeners nécéssaire au PanelSudoku
+ *  
+ * @version 0.1
+ * @author Anatole Pain
+ */
 public class ObservateurSudoku extends DocumentFilter implements ActionListener, FocusListener, DocumentListener {
 
-	public PanelSudoku win;
-	public JTextField champ;
-	public int x;
-   public int y;
+	private PanelSudoku sudoku;
+	private JTextField champ;
+	private int x;
+   private int y;
 
-	public ObservateurSudoku(PanelSudoku w,JTextField j,int l,int c){
-		win = w;
+   /**
+    * Constructeur utilisé pour récupérer la grille dudoku, le JTextFiel actionné, et ses coordonnés
+    * @param s grille dudoku
+    * @param j JTextFiel actionné
+    * @param l coordonné x de la grille 
+    * @param c coordonné y de la grille 
+    */
+	public ObservateurSudoku(PanelSudoku s,JTextField j,int l,int c){
+		sudoku = s;
 		champ = j;
 		x = l;
       y = c;
    }
    
-   /*-------------------------------------------------------*/
+   
+   /*--------------ActionListener--------------------*/
 
-   public void changedUpdate(DocumentEvent e){}
+   /**
+    * Actionné lorsque l'on appuie sur entrée
+    */
+   @Override
+   public void actionPerformed(ActionEvent evenement){
+      sudoku.CaseaEnter(champ , x , y);
+   }
 
+
+   /*--------------FocusListener--------------------*/
+
+   /**
+    * Acttionné quand le focus d'une case est perdue
+    */
+   @Override
+   public void focusLost(FocusEvent e){
+      sudoku.caseFocusLost(champ);
+   }
+
+   /**
+    * Acttionné quand le focus d'une case est gagné
+    */
+   @Override
+   public void focusGained(FocusEvent e){
+      sudoku.caseFocusGained(champ);
+   }
+
+
+
+   /*--------------DocumentListener-----------------*/
+
+   /**
+    * Quand l'utilisateur écrit dans la case
+    */
    @Override
    public void insertUpdate(DocumentEvent e){
-		System.out.println("insertUpdate");
-		win.setColor(champ);
-	}
-
+      sudoku.setColor(champ);
+   }
+ 
+   /**
+    * Quand le text de la case est effacé
+    */
    @Override
-	public void removeUpdate(DocumentEvent e){
-		System.out.println("removeUpdate");
-		win.setColor(champ);
+   public void removeUpdate(DocumentEvent e){
+      sudoku.setColor(champ);
    }
-   
-   /*----------------------------------------------------------*/
-
-   public void actionPerformed(ActionEvent evenement){
-      win.CaseaEnter(champ , x , y);
-   }
-
-   public void focusLost(FocusEvent e){
-      win.caseFocusLost(champ);
-   }
-
-   public void focusGained(FocusEvent e){
-      win.caseFocusGained(champ);
-   }
+ 
+   public void changedUpdate(DocumentEvent e){}
 
 
-   /*-------------------------------------------------------*/
-   
+
+   /*--------------extends DocumentFilter---------------*/
+
+   /**
+    * permet de faire un régexe de la case pour qu'on puisse seulement écrire 4 chiffre
+    * enrtre 1 et 9
+    * @param text est le text entrée au clavier
+    * @return true s'il le régexe est respecté false sinon
+    */
    private boolean test(String text) {
 
       Pattern p = Pattern.compile("^(?!.*(.).*\\1)([1-9]){0,4}$");
@@ -66,6 +108,9 @@ public class ObservateurSudoku extends DocumentFilter implements ActionListener,
 
    }
 
+   /**
+    * Désactive les case de clavier qui ne respecte pas le regex
+    */
    @Override
    public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
 

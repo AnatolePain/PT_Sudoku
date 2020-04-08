@@ -1,76 +1,52 @@
 import java.lang.*;
-
+/**
+ * La classe <code>TimerModel</code> gère le chronomètre.
+ *  
+ * @version 0.1
+ * @author Anatole Pain
+ */
 public class TimerModel {
 
+    private long nanosecondesStart;
+    private long nanosecondes;
     private final static long CYCLE = 1000000L; //1 000 000  nanosecondes = 1 millisecondes
-    private long newStep;
-    private int millisecondes;
+    private long millisecondes;
     private int secondes;
     private int minutes;
     private int hours;
 
+    /**
+     * Récupère le temps de depart en nanosecondes quand le chrono est lancé.
+     */
+    public void startTime(){
+        nanosecondesStart = System.nanoTime();
+    }
 
+    /**
+     * Récupère le temps en nanoseconde quand le chrono ce stop et fait les convertion pour
+     * avoir les milisecondes, les secondes, les minutes et les heures.
+     */
     public void setTime(){
 
-        if(System.nanoTime() > newStep){
-            newStep = System.nanoTime() + CYCLE;
-            increaseMillisecondes();
-            increaseSecondes();
-            increaseMinutes();
-            increaseHours();
-        }
+        nanosecondes = System.nanoTime() - nanosecondesStart;
 
-    }
-  
-    private void increaseMillisecondes(){
-        millisecondes += 1;
-    }
+        millisecondes = (long)nanosecondes/CYCLE;
 
-    private void increaseSecondes(){
+        secondes = (int)millisecondes/1000;
+        millisecondes = millisecondes-secondes*1000;
 
-        if( millisecondes == 999 ){
-            millisecondes = 0;
-            secondes += 1;
-        }
+        minutes = (int)secondes/60; 
+        secondes = secondes-minutes*60; 
+
+        hours = (int)minutes/60;
+        minutes =  minutes-hours*60;
 
     }
 
-    private void increaseMinutes(){
-
-        if( secondes == 60){
-            secondes = 0;
-            minutes += 1;
-        }
-
-    }
-
-    private void increaseHours(){
-
-        if( minutes == 60){
-            minutes = 0;
-            hours += 1;
-        }
-
-    }
-
-
-    public int getmillisecondes() {
-        return millisecondes;
-    }
-
-    public int getSecondes() {
-        return secondes;
-    }
-
-    public int getMinutes() {
-        return minutes;
-    }
-
-    public int getHeures() {
-        return hours;
-    }
-
-    public String getStringmillisecondes() {
+    /**
+     * @return renvoie une string des milisecondes avec le bon nombre de zéro devant 
+     */
+    private String getStringMillisecondes() {
 
         if(millisecondes >= 0 && millisecondes <= 9){
             return "00"+String.valueOf(millisecondes);
@@ -79,22 +55,28 @@ public class TimerModel {
         }else if(millisecondes >= 100 && millisecondes <= 999 ){
             return String.valueOf(millisecondes);
         }else{
-            return "erreur methode getStringmillisecondes() ";
+            return "erreur methode getStringMillisecondes() ";
         }
     }
 
-    public String getStringSecondes() {
+    /**
+     * @return renvoie une string des secondes avec le bon nombre de zéro devant 
+     */
+    private String getStringSecondes() {
 
         if(secondes >= 0 && secondes <= 9){
             return "0"+String.valueOf(secondes);
         }else if(secondes >= 10 && secondes <= 99){
             return String.valueOf(secondes);
         }else{
-            return "erreur getStringSecondes()";
+            return "erreur getStringSecondes(): secondes = ";
         }
     }
 
-    public String getStringMinutes() {
+    /**
+     * @return renvoie une string des minutes avec le bon nombre de zéro devant 
+     */
+    private String getStringMinutes() {
 
         if(minutes >= 0 && minutes <= 9){
             return "0"+String.valueOf(minutes);
@@ -106,7 +88,10 @@ public class TimerModel {
 
     }
 
-    public String getStirngHeures() {
+    /**
+     * @return renvoie une string des heures avec le bon nombre de zéro devant
+     */
+    private String getStirngHeures() {
 
         if(hours >= 0 && hours <= 9){
             return "0"+String.valueOf(hours);
@@ -117,4 +102,22 @@ public class TimerModel {
         }
     }
 
+    /**
+     * @return renvoie la string final dans un format plus ou moins précis celon
+     * l'absence ou la présence de secondes, minutes et heures
+     */
+    public String getString() {
+
+        if(secondes == 0){
+            return millisecondes+" millisecondes";
+        }else if(minutes == 0){
+            return this.getStringSecondes()+", "+ this.getStringMillisecondes()+" s";
+        }else if(hours == 0){
+            return this.getStringMinutes()+" m "+ this.getStringSecondes()+" s";
+        }else{
+            return this.getStirngHeures()+" h "+ this.getStringMinutes()+" m "
+            + this.getStringSecondes()+" s ";
+        }
+    }
+    
 }
