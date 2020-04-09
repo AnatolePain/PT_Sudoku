@@ -30,7 +30,7 @@ public class ObservateurSudoku extends DocumentFilter implements ActionListener,
 		sudoku = s;
 		champ = j;
 		x = l;
-      y = c;
+		y = c;
    }
    
    

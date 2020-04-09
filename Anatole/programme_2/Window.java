@@ -59,11 +59,11 @@ public class Window extends JFrame {
      */
     public void solveGridModel(){
 
-        chronometre.startTime();
+        /*chronometre.startTime();
         ModeAuto auto = new ModeAuto(gridModel, sudoku);
         auto.resolution((byte)0,(byte)0);
-        this.gridComplete();
-        //A SUPPRIMER: affiche le GridModele sur le terminal 
+        this.gridComplete();*/
+        //A SUPPRIMER: affiche le GridModele sur le terminal
         this.afficher();
 
     }

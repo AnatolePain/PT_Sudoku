@@ -2,24 +2,47 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.text.PlainDocument;
+import javax.swing.event.*;
 
 /**
- * La classe <code>Direction</code> est utilisée pour signifier une orientation possible
- * parmi les quatre points cardinaux.
+ * La classe <code>PanelSudoku</code> est utilisée pour gérer l'affichage de la grille, les
+ * différentes couleur, récupérer les differentes information des case et les charger dans
+ * le gridModel
  *  
  * @version 0.1
  * @author Anatole Pain
  */
 public class PanelSudoku extends JPanel {
 
+    /**
+     * Tableaux des 81 JTextField.
+     */
+    private JTextField[][] tabTextField = new JTextField[9][9];
     
-	private JTextField[][] tabTextField = new JTextField[9][9];
+    /**
+     * 9 panneaux faisant les 9 blocs du sodoku.
+     */
     private JPanel[] tabJPanel = new JPanel[9];
+
     private GridModel gridModel;
+
+    /**
+     * Contenue de la case ayant le focus: permet de réafficher le contenue
+     * de la case s'il n'est pas validé.
+     */
     private String stringFocus;
 
-    public PanelSudoku() {
+    /**
+     * Couleur réutilisé dans plusieur methode.
+     */
+    private Color bleuClaire;
 
+    /**
+     * Constructeur affichant la grille de sudoku vide
+     */
+    public PanelSudoku(GridModel gm) {
+    	
+        gridModel = gm;
 
         /*-------PLACEMENT-----------*/
         this.setPreferredSize(new Dimension(716, 716));
@@ -31,7 +54,9 @@ public class PanelSudoku extends JPanel {
         Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
         this.setBorder(border1);
         Font font = new Font("Courier", Font.BOLD,25);
+        bleuClaire = new Color(100,149,237);
 
+        //remplissage du tablaux de JPanel et ajout au panneau principale
         for(int i = 0; i < 9; i++){
             tabJPanel[i] = new JPanel();
             tabJPanel[i].setLayout(grille);
@@ -41,6 +66,7 @@ public class PanelSudoku extends JPanel {
 
         int indic = 0;
         
+        //remplissage du tableaux de JLabel et ajout au tableau de 9 JPanel
         for(int i = 0; i < 9; i++){
 
             for(int j = 0, l = 0; j < 9; j+=3, l++){
@@ -57,7 +83,6 @@ public class PanelSudoku extends JPanel {
                     int c = j+k;
 
                     tabTextField[i][c] = new JTextField();
-                    tabTextField[i][c].setEditable(false);
                     tabTextField[i][c].setHorizontalAlignment(JTextField.CENTER);
                     tabTextField[i][c].setFont(font);
                     tabTextField[i][c].setBorder(border);
@@ -66,6 +91,8 @@ public class PanelSudoku extends JPanel {
                     ObservateurSudoku obs1 = new ObservateurSudoku(this,tabTextField[i][c],i,c);
                     tabTextField[i][c].addActionListener(obs1);
                     tabTextField[i][c].addFocusListener(obs1);
+                    tabTextField[i][c].getDocument().addDocumentListener(obs1);
+                    tabTextField[i][j].setText("");
 
                     PlainDocument doc = (PlainDocument) tabTextField[i][c].getDocument();
                     doc.setDocumentFilter(obs1);
@@ -78,15 +105,18 @@ public class PanelSudoku extends JPanel {
     }
 
 
-    /*---------------------------------------------------------------------*/
+    /**
+     * Permet de charger le GridModel et de l'afficher.
+     * @param gm "Importation" du GridMoedel depuis la class Windows
+     */
+    public void setScreenGridModel(GridModel gm){
 
-    public void setScreenGridModele(GridModel gm){
+    	this.gridModel = gm;
         
-        gridModel = gm;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if(gridModel.getCaseFirstNum(i, j) == 0){
-                    tabTextField[i][j].setEditable(true);
+                    tabTextField[i][j].setText("");
                 }else{
                     tabTextField[i][j].setText(gridModel.getCaseFirstNum(i, j)+"");
                 }
@@ -94,43 +124,82 @@ public class PanelSudoku extends JPanel {
         }
     }
 
+    /**
+     * Change la valeur d'une case case selon le GridModel ( principalement utilisé
+     *  par la methode ModeAuto).
+     * @param x coordonné x de la grille de sudoku
+     * @param y coordonné y de la grille de sudoku
+     */
+    public void setScreenCase(int x , int y){
+        tabTextField[x][y].setText(gridModel.getCaseFirstNum(x, y)+"");
+        tabTextField[x][y].setForeground(Color.BLUE);
+    }
+
+    /**
+     * Methode utilié quand on valide une nouvelle valeur dans une case CaseEnter 
+     * verifie si cette valeur est valide et dans ce cas la charge dans le GridModel.
+     * @param j nouvelle valeur de la case 
+     * @param x coordonné x de la grille de sudoku
+     * @param y coordonné y de la grille de sudoku
+     */
     public void CaseaEnter(JTextField j,int x, int y){
 
         String text = j.getText();
-        
-        if(text.length() == 0){
-            gridModel.setCaseFirstNum(x, y, (byte)0);
-        }else if(text.length() == 1){
-            gridModel.setCaseFirstNum(x, y, Byte.parseByte(text,10));
-            if(stringFocus.length() > 1){
-                for(int i = 0 ; i < stringFocus.length(); i++){
-                    gridModel.setCaseSubNum(x, y, i, (byte)0);
+        boolean changeFocus = true;
+
+            //si la valeur est égale à zéro
+            if(text.length() == 0){
+                gridModel.setCaseFirstNum(x, y, (byte)0);
+            
+            //sinon c'est une valeur seule (firstNum)
+            }else{
+                byte b = Byte.parseByte(text,10);
+                //vérifie si cette valeur est possile
+                if(gridModel.isPossible(b, x , y)){
+                    gridModel.setCaseFirstNum(x, y, b);
+                }else{
+                    j.setForeground(Color.RED);
+                    changeFocus = false;
                 }
             }
-        }else{
-            gridModel.setCaseFirstNum(x, y, (byte)0);
-            int numbDigit =  text.length();
-            for(int i = 0; i < numbDigit ; i++){
-                byte b = Byte.parseByte(text.substring(i,i+1),10);
-                gridModel.setCaseSubNum(x, y, i, b);
-            }
 
+
+        //ne déplace pas le curser si la valeur n'est pas possible
+        if(changeFocus){
+            stringFocus = j.getText();
+            j.setFocusable(false);
+            j.setFocusable(true);
+        }else{  
+            changeFocus = false;
         }
-
-        stringFocus = j.getText();
-        j.setFocusable(false);
-        j.setFocusable(true);
     }
 
+    /**
+     * Permet d'enregistrer la valeur de la case seléctionné.
+     * @param j est la case Selectionné (JLabel)
+     */
     public void caseFocusGained(JTextField j){
         stringFocus = j.getText();
     }
-       
+    
+    /**
+     * Remet l'ancienne valeur dans le JLabel si la valeur n'a pas été validé.
+     * @param j est la case Selectionné (JLabel)
+     */
     public void caseFocusLost(JTextField j){
-        if(!j.getText().equals(stringFocus)){
+        if(!j.getText().equals(stringFocus)){;
             j.setText(stringFocus);
+            j.setForeground(Color.BLACK);
         }
         stringFocus = "";
+    }
+
+    /**
+     * Remet la couleur du text de la case en noir.
+     * @param j est la case Selectionné (JLabel)
+     */
+    public void setColor(JTextField j){
+        j.setForeground(Color.BLACK);
     }
 
 }

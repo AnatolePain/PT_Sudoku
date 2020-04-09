@@ -1,8 +1,8 @@
 import java.awt.*;
 import javax.swing.*;
 /**
- * La class <code>Window</code> JFrame gèrant l'affichage dans son ensemble, notament en invoquant les
- * les class PanelSudoku et PanelMenu
+ * La class <code>Window</code> est une fenêtre JFrame gèrant l'affichage dans son ensemble, notament en invoquant les
+ * les class PanelSudoku et PanelMenu qui sont deux panneaux
  * 
  * @version 0.1
  * @author Anatole Pain
@@ -12,10 +12,8 @@ public class Window extends JFrame {
     private PanelMenu menu;
     private PanelSudoku sudoku;
 
-    private FileManager fm;
-    private GridModel gm;
-
-    private boolean gmLoadOrNot;
+    private FileManager fileManager;
+    private GridModel gridModel;
 
     /**
      * Creation de la fenettre: mise en page de type BorderLayout.avec un le PannelSudoku
@@ -27,17 +25,15 @@ public class Window extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
 
-        menu = new PanelMenu(this);
+        this.menu = new PanelMenu(this);
         this.add(menu, BorderLayout.NORTH);
 
-        sudoku = new PanelSudoku();
+        this.gridModel = new GridModel();
+        this.sudoku = new PanelSudoku(gridModel);
         this.add(sudoku, BorderLayout.CENTER);
 
         this.pack();
-
-        fm = new FileManager();
-        gm = new GridModel();
-
+        this.fileManager = new FileManager();
     }
 
     /**
@@ -45,38 +41,48 @@ public class Window extends JFrame {
      */
     public void loadGridModel(){
 
-        System.out.println("entrer dans le gridModel");
-        fm.askForLoadFile();
-        if (fm.getSelectFile() != null) {
-            System.out.println("entrer dans le if()");
-            gm = fm.loadGridFromFile();
-            sudoku.setScreenGridModele(gm);
-        }else{
-            System.out.println("entrer dans le else");
+        this.fileManager.askForLoadFile();
+        if (this.fileManager.getSelectFile() != null) {
+            this.gridModel = this.fileManager.loadGridFromFile();
+            this.sudoku.setScreenGridModel(this.gridModel);
         }
     }
 
+    /**
+    * Sauvegarde le GridModele chargé
+    */
     public void saveGridModel(){
         
-        fm.askForSaveFile();
-        if (fm.getSelectFile() != null) {
-            fm.saveFileFromGrid(gm);
-        }
-    }
+        fileManager.askForSaveFile();
+        /*if (fileManager.getSelectFile() != null) {
+            fileManager.saveFileFromGrid(gridModel);
+        }*/
 
+        fileManager.saveFileFromGrid(gridModel);
+        this.afficher();
+    }
 
     //A SUPPRIMER: affiche le GridModele sur le terminal
     public void afficher(){
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                System.out.print(gm.getCaseFirstNum(i, j) + "(");
+                System.out.print(gridModel.getCaseFirstNum(i, j) + "(");
                 for (int k = 0; k < 4; k++) {
-                    System.out.print(gm.getCaseSubNum(i, j, k) + ",");
+                    System.out.print(gridModel.getCaseSubNum(i, j, k) + ",");
                 }
                 System.out.print("), ");
             }
             System.out.println();
         }
+
+        /*for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                System.out.print(gm.getCaseFirstNum(i, j) + " ,");
+            }
+            System.out.println();
+        }*/
+        System.out.println();
+        System.out.println();
     }
 
 }

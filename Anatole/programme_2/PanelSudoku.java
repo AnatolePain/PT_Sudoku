@@ -6,8 +6,8 @@ import javax.swing.event.*;
 
 /**
  * La classe <code>PanelSudoku</code> est utilisée pour gérer l'affichage de la grille, les
- *différentes couleur, récupérer les differentes information des case et les charger dans
-  le gridModel
+ * différentes couleur, récupérer les differentes information des case et les charger dans
+ * le gridModel
  *  
  * @version 0.1
  * @author Anatole Pain
@@ -41,8 +41,6 @@ public class PanelSudoku extends JPanel {
      * Constructeur affichant la grille de sudoku vide et non remplissable 
      */
     public PanelSudoku() {
-
-        stringFocus = "NULL";
 
         /*-------PLACEMENT-----------*/
         this.setPreferredSize(new Dimension(716, 716));
@@ -152,6 +150,13 @@ public class PanelSudoku extends JPanel {
             //si la valeur est égale à zéro
             if(text.length() == 0){
                 gridModel.setCaseFirstNum(x, y, (byte)0);
+
+                //remet a zero les valeurs dans subNum s'il y'en a
+                if(stringFocus.length() > 1){
+                    for(int i = 0 ; i < stringFocus.length(); i++){
+                        gridModel.setCaseSubNum(x, y, i, (byte)0);
+                    }
+                }
             
             //si c'est une valeur seul alors (firstNum)
             }else if(text.length() == 1){
@@ -173,7 +178,6 @@ public class PanelSudoku extends JPanel {
 
                 }else{
                     j.setForeground(Color.RED);
-                    System.out.println("TEST 2 ");
                     changeFocus = false;
                 }
             
