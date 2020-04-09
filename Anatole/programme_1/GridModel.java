@@ -99,4 +99,19 @@ public class GridModel {
 
         return true;
     }
+
+    /**
+     * renvoie true si la grille est complété et false sinon
+     */
+    public boolean isCompleted(){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (this.getCaseFirstNum(i, j) == 0 || this.getCaseSubNum(i, j, 0) != 0) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
 }
