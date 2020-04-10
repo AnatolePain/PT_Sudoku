@@ -2,8 +2,7 @@
  * La classe <code>ModeAuto</Code> permet la résolution algorithmique de la grille sur un 
  * modele de backtracking
  * 
- * source: http://sdz.tdct.org/sdz/le-backtracking-par-l-exemple-resoudre-un-sudoku.html
- * 
+ * source: http://igm.univ-mlv.fr/~dr/XPOSE2013/sudoku/backtracking.html#principe
  * @version 0.1
  * @author Anatole Pain
  */
