@@ -17,7 +17,7 @@ public class ObservateurSudoku extends DocumentFilter implements ActionListener,
 	private PanelSudoku sudoku;
 	private JTextField champ;
 	private int x;
-    private int y;
+   private int y;
 
    /**
     * Constructeur utilisé pour récupérer la grille dudoku, le JTextFiel actionné, et ses coordonnés
@@ -28,7 +28,8 @@ public class ObservateurSudoku extends DocumentFilter implements ActionListener,
     */
 	public ObservateurSudoku(PanelSudoku s,JTextField j,int l,int c){
 		this.sudoku = s;
-		this.champ = j;
+      this.champ = j;
+      this.x = l;
 		this.y = c;
    }
    

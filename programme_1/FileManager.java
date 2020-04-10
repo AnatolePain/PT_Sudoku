@@ -31,7 +31,7 @@ public class FileManager{
         this.fileChooser.setDialogTitle("Ouvrir un fichier");
         int returnValue = this.fileChooser.showOpenDialog(null);
         if (returnValue != JFileChooser.APPROVE_OPTION) {
-            this.selectedFile = this.fileChooser.getSelectedFile();
+            this.selectedFile = null;
         } else {
             this.selectedFile = this.fileChooser.getSelectedFile();
         }

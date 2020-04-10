@@ -122,7 +122,7 @@ public class PanelSudoku extends JPanel {
                     this.tabTextField[i][j].setEditable(true);
                 }else{
                     this.tabTextField[i][j].setText(this.gridModel.getCaseFirstNum(i, j)+"");
-                    this.tabTextField[i][j].setFocusable(false);
+                    this.tabTextField[i][j].setEditable(false);
                 }
             }
         }
