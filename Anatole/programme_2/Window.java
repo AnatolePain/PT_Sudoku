@@ -23,21 +23,22 @@ public class Window extends JFrame {
      */
     public Window(){
         
+		this.setTitle("Sudoku");
         this.setLocation(100, 100);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
 
-        menu = new PanelMenu(this);
-        this.add(menu, BorderLayout.NORTH);
+        this.menu = new PanelMenu(this);
+        this.add(this.menu, BorderLayout.NORTH);
 
-        sudoku = new PanelSudoku();
-        this.add(sudoku, BorderLayout.CENTER);
+        this.sudoku = new PanelSudoku();
+        this.add(this.sudoku, BorderLayout.CENTER);
 
         this.pack();
 
-        fileManager = new FileManager();
-        gridModel = new GridModel();
-        chronometre = new TimerModel();
+        this.fileManager = new FileManager();
+        this.gridModel = new GridModel();
+        this.chronometre = new TimerModel();
 
     }
 
@@ -46,10 +47,11 @@ public class Window extends JFrame {
      */
     public void loadGridModel(){
 
-        fileManager.askForLoadFile();
-        if (fileManager.getSelectFile() != null) {
-            gridModel = fileManager.loadGridFromFile();
-            sudoku.setScreenGridModele(gridModel);
+        this.fileManager.askForLoadFile();
+        if (this.fileManager.getSelectFile() != null) {
+            this.gridModel = this.fileManager.loadGridFromFile();
+            this.sudoku.setScreenGridModele(this.gridModel);
+			this.menu.enableAutoButton();
         }
     }
 
@@ -59,12 +61,10 @@ public class Window extends JFrame {
      */
     public void solveGridModel(){
 
-        /*chronometre.startTime();
-        ModeAuto auto = new ModeAuto(gridModel, sudoku);
+        this.chronometre.startTime();
+        ModeAuto auto = new ModeAuto(this.gridModel, this.sudoku);
         auto.resolution((byte)0,(byte)0);
-        this.gridComplete();*/
-        //A SUPPRIMER: affiche le GridModele sur le terminal
-        this.afficher();
+        this.gridComplete();
 
     }
 
@@ -73,31 +73,8 @@ public class Window extends JFrame {
      * la class WinnerVue
      */
     public void gridComplete(){
-        chronometre.setTime();
-        WinnerVue wv = new WinnerVue(chronometre);
-    }
-
-    //A SUPPRIMER: affiche le GridModele sur le terminal
-    public void afficher(){
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                System.out.print(gridModel.getCaseFirstNum(i, j) + "(");
-                for (int k = 0; k < 4; k++) {
-                    System.out.print(gridModel.getCaseSubNum(i, j, k) + ",");
-                }
-                System.out.print("), ");
-            }
-            System.out.println();
-        }
-
-        /*for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                System.out.print(gm.getCaseFirstNum(i, j) + " ,");
-            }
-            System.out.println();
-        }*/
-        System.out.println();
-        System.out.println();
+        this.chronometre.setTime();
+        WinnerVue wv = new WinnerVue(this.chronometre);
     }
 
 }

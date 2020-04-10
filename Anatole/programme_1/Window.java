@@ -21,12 +21,13 @@ public class Window extends JFrame {
      */
     public Window(){
         
+		this.setTitle("Sudoku developer");
         this.setLocation(100, 100);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
 
         this.menu = new PanelMenu(this);
-        this.add(menu, BorderLayout.NORTH);
+        this.add(this.menu, BorderLayout.NORTH);
 
         this.gridModel = new GridModel();
         this.sudoku = new PanelSudoku(gridModel);
@@ -52,37 +53,10 @@ public class Window extends JFrame {
     * Sauvegarde le GridModele chargé
     */
     public void saveGridModel(){
-        
-        fileManager.askForSaveFile();
-        /*if (fileManager.getSelectFile() != null) {
-            fileManager.saveFileFromGrid(gridModel);
-        }*/
-
-        fileManager.saveFileFromGrid(gridModel);
-        this.afficher();
-    }
-
-    //A SUPPRIMER: affiche le GridModele sur le terminal
-    public void afficher(){
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                System.out.print(gridModel.getCaseFirstNum(i, j) + "(");
-                for (int k = 0; k < 4; k++) {
-                    System.out.print(gridModel.getCaseSubNum(i, j, k) + ",");
-                }
-                System.out.print("), ");
-            }
-            System.out.println();
+        this.fileManager.askForSaveFile();
+		if (this.fileManager.getSelectFile() != null) {
+            this.fileManager.saveFileFromGrid(this.gridModel);
         }
-
-        /*for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                System.out.print(gm.getCaseFirstNum(i, j) + " ,");
-            }
-            System.out.println();
-        }*/
-        System.out.println();
-        System.out.println();
     }
 
 }

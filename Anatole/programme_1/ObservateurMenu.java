@@ -20,7 +20,7 @@ public class ObservateurMenu implements ActionListener {
      * @param w Fenêtre principale
      */
     public ObservateurMenu(Window w){
-        win = w;
+        this.win = w;
     }
 
     /**
@@ -33,9 +33,11 @@ public class ObservateurMenu implements ActionListener {
         String bouton = evenement.getActionCommand();
 
         if(bouton.equals("LOAD FILE")){
-            win.loadGridModel();
-        }else if(bouton.equals("SAVE")){;
-            win.saveGridModel();
+            this.win.loadGridModel();
+        }else if(bouton.equals("SAVE")){
+            this.win.saveGridModel();
+		}else if(bouton.equals("HELP")){
+            HelpVue help = new HelpVue();
         }else{
             System.out.println("erreur methode actionPerformed , class ObservateurMenu ");
         }

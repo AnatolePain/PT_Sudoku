@@ -33,16 +33,11 @@ public class PanelSudoku extends JPanel {
     private String stringFocus;
 
     /**
-     * Couleur réutilisé dans plusieur methode.
-     */
-    private Color bleuClaire;
-
-    /**
      * Constructeur affichant la grille de sudoku vide
      */
     public PanelSudoku(GridModel gm) {
     	
-        gridModel = gm;
+        this.gridModel = gm;
 
         /*-------PLACEMENT-----------*/
         this.setPreferredSize(new Dimension(716, 716));
@@ -54,13 +49,12 @@ public class PanelSudoku extends JPanel {
         Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
         this.setBorder(border1);
         Font font = new Font("Courier", Font.BOLD,25);
-        bleuClaire = new Color(100,149,237);
 
         //remplissage du tablaux de JPanel et ajout au panneau principale
         for(int i = 0; i < 9; i++){
-            tabJPanel[i] = new JPanel();
-            tabJPanel[i].setLayout(grille);
-            tabJPanel[i].setBorder(border1);
+            this.tabJPanel[i] = new JPanel();
+            this.tabJPanel[i].setLayout(grille);
+            this.tabJPanel[i].setBorder(border1);
             this.add(tabJPanel[i]);
         }
 
@@ -82,22 +76,22 @@ public class PanelSudoku extends JPanel {
 
                     int c = j+k;
 
-                    tabTextField[i][c] = new JTextField();
-                    tabTextField[i][c].setHorizontalAlignment(JTextField.CENTER);
-                    tabTextField[i][c].setFont(font);
-                    tabTextField[i][c].setBorder(border);
-                    tabTextField[i][c].setBackground(Color.WHITE);
+                    this.tabTextField[i][c] = new JTextField();
+                    this.tabTextField[i][c].setHorizontalAlignment(JTextField.CENTER);
+                    this.tabTextField[i][c].setFont(font);
+                    this.tabTextField[i][c].setBorder(border);
+                    this.tabTextField[i][c].setBackground(Color.WHITE);
 
-                    ObservateurSudoku obs1 = new ObservateurSudoku(this,tabTextField[i][c],i,c);
-                    tabTextField[i][c].addActionListener(obs1);
-                    tabTextField[i][c].addFocusListener(obs1);
-                    tabTextField[i][c].getDocument().addDocumentListener(obs1);
-                    tabTextField[i][j].setText("");
+                    ObservateurSudoku obs1 = new ObservateurSudoku(this,this.tabTextField[i][c],i,c);
+                    this.tabTextField[i][c].addActionListener(obs1);
+                    this.tabTextField[i][c].addFocusListener(obs1);
+                    this.tabTextField[i][c].getDocument().addDocumentListener(obs1);
+                    this.tabTextField[i][j].setText("");
 
                     PlainDocument doc = (PlainDocument) tabTextField[i][c].getDocument();
                     doc.setDocumentFilter(obs1);
 
-                    tabJPanel[l+indic].add(tabTextField[i][c]);
+                    this.tabJPanel[l+indic].add(tabTextField[i][c]);
                 }
             }
         }
@@ -115,10 +109,10 @@ public class PanelSudoku extends JPanel {
         
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if(gridModel.getCaseFirstNum(i, j) == 0){
-                    tabTextField[i][j].setText("");
+                if(this.gridModel.getCaseFirstNum(i, j) == 0){
+                    this.tabTextField[i][j].setText("");
                 }else{
-                    tabTextField[i][j].setText(gridModel.getCaseFirstNum(i, j)+"");
+                    this.tabTextField[i][j].setText(this.gridModel.getCaseFirstNum(i, j)+"");
                 }
             }
         }
@@ -131,8 +125,8 @@ public class PanelSudoku extends JPanel {
      * @param y coordonné y de la grille de sudoku
      */
     public void setScreenCase(int x , int y){
-        tabTextField[x][y].setText(gridModel.getCaseFirstNum(x, y)+"");
-        tabTextField[x][y].setForeground(Color.BLUE);
+        this.tabTextField[x][y].setText(this.gridModel.getCaseFirstNum(x, y)+"");
+        this.tabTextField[x][y].setForeground(Color.BLUE);
     }
 
     /**
@@ -149,14 +143,14 @@ public class PanelSudoku extends JPanel {
 
             //si la valeur est égale à zéro
             if(text.length() == 0){
-                gridModel.setCaseFirstNum(x, y, (byte)0);
+                this.gridModel.setCaseFirstNum(x, y, (byte)0);
             
             //sinon c'est une valeur seule (firstNum)
             }else{
                 byte b = Byte.parseByte(text,10);
                 //vérifie si cette valeur est possile
-                if(gridModel.isPossible(b, x , y)){
-                    gridModel.setCaseFirstNum(x, y, b);
+                if(this.gridModel.isPossible(b, x , y)){
+                    this.gridModel.setCaseFirstNum(x, y, b);
                 }else{
                     j.setForeground(Color.RED);
                     changeFocus = false;
@@ -166,7 +160,7 @@ public class PanelSudoku extends JPanel {
 
         //ne déplace pas le curser si la valeur n'est pas possible
         if(changeFocus){
-            stringFocus = j.getText();
+            this.stringFocus = j.getText();
             j.setFocusable(false);
             j.setFocusable(true);
         }else{  
@@ -179,7 +173,7 @@ public class PanelSudoku extends JPanel {
      * @param j est la case Selectionné (JLabel)
      */
     public void caseFocusGained(JTextField j){
-        stringFocus = j.getText();
+        this.stringFocus = j.getText();
     }
     
     /**
@@ -187,11 +181,11 @@ public class PanelSudoku extends JPanel {
      * @param j est la case Selectionné (JLabel)
      */
     public void caseFocusLost(JTextField j){
-        if(!j.getText().equals(stringFocus)){;
-            j.setText(stringFocus);
+        if(!j.getText().equals(this.stringFocus)){;
+            j.setText(this.stringFocus);
             j.setForeground(Color.BLACK);
         }
-        stringFocus = "";
+        this.stringFocus = "";
     }
 
     /**

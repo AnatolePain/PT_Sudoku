@@ -9,6 +9,11 @@ import javax.swing.*;
 public class PanelMenu extends JPanel {
 
     private Window window;
+	
+	/**
+	 *Bouton Auto qui doit être désactivé au démarage.
+	 */
+	private JButton autoButton;
 
     /**
      * Creation du JPanel: mise en page de type flowLayout contenant deux JButton
@@ -19,17 +24,31 @@ public class PanelMenu extends JPanel {
      */
     public PanelMenu(Window w){
 
-        window = w;
+        this.window = w;
         FlowLayout layoutMenu = new FlowLayout();
         this.setLayout(layoutMenu);
+		
         JButton loadFileButton = new JButton("LOAD FILE");
-        JButton autoButton = new JButton("AUTO");
+        this.autoButton = new JButton("AUTO");
+		this.autoButton.setEnabled(false);
+		JButton helpButton = new JButton("HELP");
+		
         ObservateurMenu obs = new ObservateurMenu(window);
         loadFileButton.addActionListener(obs);
-        autoButton.addActionListener(obs);
+        this.autoButton.addActionListener(obs);
+		helpButton.addActionListener(obs);
+		
         this.add(loadFileButton);
         this.add(autoButton);
+		this.add(helpButton);
 
     }
+	
+	/**
+	 * Réactiver le bouton Auto (quand on on charge un GridModel).
+	 */
+	public void enableAutoButton(){
+		this.autoButton.setEnabled(true);
+	}
 
 }

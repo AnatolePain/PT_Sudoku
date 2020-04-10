@@ -17,7 +17,7 @@ public class ObservateurSudoku extends DocumentFilter implements ActionListener,
 	private PanelSudoku sudoku;
 	private JTextField champ;
 	private int x;
-   private int y;
+    private int y;
 
    /**
     * Constructeur utilisé pour récupérer la grille dudoku, le JTextFiel actionné, et ses coordonnés
@@ -27,10 +27,9 @@ public class ObservateurSudoku extends DocumentFilter implements ActionListener,
     * @param c coordonné y de la grille 
     */
 	public ObservateurSudoku(PanelSudoku s,JTextField j,int l,int c){
-		sudoku = s;
-		champ = j;
-		x = l;
-		y = c;
+		this.sudoku = s;
+		this.champ = j;
+		this.y = c;
    }
    
    
@@ -41,7 +40,7 @@ public class ObservateurSudoku extends DocumentFilter implements ActionListener,
     */
    @Override
    public void actionPerformed(ActionEvent evenement){
-      sudoku.CaseaEnter(champ , x , y);
+      sudoku.CaseEnter(this.champ , this.x , this.y);
    }
 
 
@@ -52,7 +51,7 @@ public class ObservateurSudoku extends DocumentFilter implements ActionListener,
     */
    @Override
    public void focusLost(FocusEvent e){
-      sudoku.caseFocusLost(champ);
+      this.sudoku.caseFocusLost(this.champ);
    }
 
    /**
@@ -60,7 +59,7 @@ public class ObservateurSudoku extends DocumentFilter implements ActionListener,
     */
    @Override
    public void focusGained(FocusEvent e){
-      sudoku.caseFocusGained(champ);
+      this.sudoku.caseFocusGained(this.champ);
    }
 
 
@@ -72,7 +71,7 @@ public class ObservateurSudoku extends DocumentFilter implements ActionListener,
     */
    @Override
    public void insertUpdate(DocumentEvent e){
-      sudoku.setColor(champ);
+      this.sudoku.setColor(this.champ);
    }
  
    /**
@@ -80,7 +79,7 @@ public class ObservateurSudoku extends DocumentFilter implements ActionListener,
     */
    @Override
    public void removeUpdate(DocumentEvent e){
-      sudoku.setColor(champ);
+      this.sudoku.setColor(this.champ);
    }
  
    public void changedUpdate(DocumentEvent e){}

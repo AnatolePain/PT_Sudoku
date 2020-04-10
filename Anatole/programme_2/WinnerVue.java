@@ -15,9 +15,8 @@ public class WinnerVue extends JOptionPane {
      */
     public WinnerVue(TimerModel tm) {
         
-        timerModel = tm;
-        this.setLocation(10,10);
-        showMessageDialog(null, "Temps:  "+tm.getString(), "  Victoire ! ", INFORMATION_MESSAGE);
+        this.timerModel = tm;
+        showMessageDialog(null, "Temps:  " + timerModel.getString(), "  Victoire ! ", INFORMATION_MESSAGE);
 
     }
 

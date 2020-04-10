@@ -19,16 +19,23 @@ public class PanelMenu extends JPanel {
      */
     public PanelMenu(Window w){
 
-        window = w;
+        this.window = w;
         FlowLayout layoutMenu = new FlowLayout();
         this.setLayout(layoutMenu);
+		
         JButton loadFileButton = new JButton("LOAD FILE");
-        JButton autoButton = new JButton("SAVE");
+        JButton saveButton = new JButton("SAVE");
+		JButton helpButton = new JButton("HELP");
+		
         ObservateurMenu obs = new ObservateurMenu(window);
+		
         loadFileButton.addActionListener(obs);
-        autoButton.addActionListener(obs);
+        saveButton.addActionListener(obs);
+		helpButton.addActionListener(obs);
+		
         this.add(loadFileButton);
-        this.add(autoButton);
+        this.add(saveButton);
+        this.add(helpButton);
 
     }
 

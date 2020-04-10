@@ -18,8 +18,8 @@ public class ModeAuto {
 	 * @param s est le PanelSudoku
 	 */
 	public ModeAuto (GridModel g, PanelSudoku s) {
-		gridModel = g;
-		panSudo = s;
+		this.gridModel = g;
+		this.panSudo = s;
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class ModeAuto {
 		}
 
 		//verifie si la case est egale a zero si oui on la passe 
-	    if (gridModel.getCaseFirstNum(x, y) != 0){
+	    if (this.gridModel.getCaseFirstNum(x, y) != 0){
 			return resolution(avancementX(x),avancementY(x,y));
 		}
 		
@@ -45,13 +45,13 @@ public class ModeAuto {
 	    for (byte k = 1; k <= 9; k++){
 
 	    	//verifie si k n'est pas a la fois sur sa ligne, sa collonne , ou son bloc 
-	        if (gridModel.isPossible(k, x, y) == true){
+	        if (this.gridModel.isPossible(k, x, y) == true){
 
 				//on affiche la case à l'écran 
-				panSudo.setScreenCase(x , y);
+				this.panSudo.setScreenCase(x , y);
 
-				gridModel.setCaseFirstNum(x, y, k);
-				panSudo.setScreenCase(x, y);
+				this.gridModel.setCaseFirstNum(x, y, k);
+				this.panSudo.setScreenCase(x, y);
 
 				/*on va de plus en plus profond dans la récursivité en réapelant resolution(),
 				jusqu'à ce que ça soit false. On recule alors et celle d'avant return true */
@@ -65,7 +65,7 @@ public class ModeAuto {
 		//si les numéro de 1 à 9 sont impossible sur une case :
 		
 		//on remet la case à 0
-		gridModel.setCaseFirstNum(x, y, (byte)0);
+		this.gridModel.setCaseFirstNum(x, y, (byte)0);
 
 		//on return false 
 	    return false;
