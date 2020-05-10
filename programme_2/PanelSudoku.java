@@ -87,6 +87,7 @@ public class PanelSudoku extends JPanel {
 
                     this.tabTextField[i][c] = new JTextField();
                     this.tabTextField[i][c].setEditable(false);
+                    this.tabTextField[i][c].setFocusable(false);
                     this.tabTextField[i][c].setHorizontalAlignment(JTextField.CENTER);
                     this.tabTextField[i][c].setFont(font);
                     this.tabTextField[i][c].setBorder(border);
@@ -120,9 +121,11 @@ public class PanelSudoku extends JPanel {
                 if(this.gridModel.getCaseFirstNum(i, j) == 0){
                     this.tabTextField[i][j].setText("");
                     this.tabTextField[i][j].setEditable(true);
+                    this.tabTextField[i][j].setFocusable(true);
                 }else{
                     this.tabTextField[i][j].setText(this.gridModel.getCaseFirstNum(i, j)+"");
                     this.tabTextField[i][j].setEditable(false);
+                    this.tabTextField[i][j].setFocusable(false);
                 }
             }
         }
@@ -168,12 +171,13 @@ public class PanelSudoku extends JPanel {
             
             //si c'est une valeur seul alors (firstNum)
             }else if(text.length() == 1){
-                j.setForeground(Color.BLUE);
 
                 byte b = Byte.parseByte(text,10);
 
                 //vérifie si cette valeur est possile
                 if(this.gridModel.isPossible(b, x , y)){
+
+                    j.setForeground(Color.BLUE);
 
                     this.gridModel.setCaseFirstNum(x, y, b);
                     if(this.gridModel.isCompleted()){
@@ -187,8 +191,10 @@ public class PanelSudoku extends JPanel {
                             this.gridModel.setCaseSubNum(x, y, i, (byte)0);
                         }
                     }
-
-                }else{
+                
+                //si elle n'est pas possible et n'est pas le même nombre qu'avant alors case en rouge
+                }else if (!this.gridModel.isPossible(b, x , y) 
+                            && this.gridModel.getCaseFirstNum(x, y) != b){
                     j.setForeground(Color.RED);
                     changeFocus = false;
                 }
